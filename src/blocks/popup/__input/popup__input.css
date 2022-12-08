@@ -1,0 +1,10 @@
+.popup__input {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border: 0;
+  border-bottom: 1px solid #00000032;
+  margin-bottom: 5px;
+  outline: none;
+  padding-bottom: 13px;
+}

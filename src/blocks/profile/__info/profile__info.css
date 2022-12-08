@@ -1,0 +1,17 @@
+.profile__info {
+  color: #fff;
+  display: flex;
+  align-items: baseline;
+  position: relative;
+  margin-right: 30px;
+  max-width: calc(
+    100% - 330px
+  ); /* фото слева(150px), кнопка справа(150px), собственный маргин справа(30px) */
+}
+
+@media screen and (max-width: 767px) {
+  .profile__info {
+    max-width: calc(100% - 38px);
+    margin: 0 auto 36px auto;
+  }
+}

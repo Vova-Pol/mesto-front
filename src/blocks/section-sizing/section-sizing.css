@@ -1,0 +1,15 @@
+.section-sizing {
+  padding: 0 200px;
+}
+
+@media screen and (max-width: 1023px) {
+  .section-sizing {
+    padding: 0 100px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .section-sizing {
+    padding: 0 19px;
+  }
+}
