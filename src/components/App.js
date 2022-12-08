@@ -10,6 +10,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { Route, Redirect, Switch } from "react-router-dom";
+import Register from "./Register";
 
 function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupIsOpen] = React.useState(false);
@@ -149,7 +150,8 @@ function App() {
     <div className="page">
       <div className="page__container">
         <Header />
-        <Switch>
+        <Register />
+        {/* <Switch>
           <Route path="/sign-up"></Route>
           <Route path="/sign-in"></Route>
           <Route exact path="/">
@@ -201,7 +203,7 @@ function App() {
               />
             </CurrentUserContext.Provider>
           </Route>
-        </Switch>
+        </Switch> */}
       </div>
     </div>
   );
