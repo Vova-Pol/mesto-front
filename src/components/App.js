@@ -9,6 +9,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupIsOpen] = React.useState(false);
@@ -26,6 +27,8 @@ function App() {
     _id: "",
     cohort: "",
   });
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -145,51 +148,60 @@ function App() {
   return (
     <div className="page">
       <div className="page__container">
-        <CurrentUserContext.Provider value={currentUser}>
-          <Header />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
-          <Footer />
+        <Header />
+        <Switch>
+          <Route path="/sign-up"></Route>
+          <Route path="/sign-in"></Route>
+          <Route exact path="/">
+            <CurrentUserContext.Provider value={currentUser}>
+              <Main
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+              <Footer />
 
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
+              <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateUser={handleUpdateUser}
+              />
 
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateCards={handleUpdateCards}
-          />
+              <AddPlacePopup
+                isOpen={isAddPlacePopupOpen}
+                onClose={closeAllPopups}
+                onUpdateCards={handleUpdateCards}
+              />
 
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-          <div className="popup" id="popup-delete-card">
-            <form className="popup__form">
-              <h3 className="popup__title popup__title_type_delete">
-                Вы уверены?
-              </h3>
-              <button className="popup__save-button" type="submit">
-                Да
-              </button>
-              <button className="popup__close-button" type="button"></button>
-            </form>
-          </div>
+              <div className="popup" id="popup-delete-card">
+                <form className="popup__form">
+                  <h3 className="popup__title popup__title_type_delete">
+                    Вы уверены?
+                  </h3>
+                  <button className="popup__save-button" type="submit">
+                    Да
+                  </button>
+                  <button
+                    className="popup__close-button"
+                    type="button"
+                  ></button>
+                </form>
+              </div>
 
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-        </CurrentUserContext.Provider>
+              <EditAvatarPopup
+                isOpen={isEditAvatarPopupOpen}
+                onClose={closeAllPopups}
+                onUpdateAvatar={handleUpdateAvatar}
+              />
+            </CurrentUserContext.Provider>
+          </Route>
+        </Switch>
       </div>
     </div>
   );
