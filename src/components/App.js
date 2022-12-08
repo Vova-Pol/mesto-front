@@ -11,6 +11,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Register from "./Register";
+import Login from "./Login";
 
 function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupIsOpen] = React.useState(false);
@@ -150,10 +151,14 @@ function App() {
     <div className="page">
       <div className="page__container">
         <Header />
-        <Register />
-        {/* <Switch>
-          <Route path="/sign-up"></Route>
-          <Route path="/sign-in"></Route>
+
+        <Switch>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
           <Route exact path="/">
             <CurrentUserContext.Provider value={currentUser}>
               <Main
@@ -203,7 +208,7 @@ function App() {
               />
             </CurrentUserContext.Provider>
           </Route>
-        </Switch> */}
+        </Switch>
       </div>
     </div>
   );

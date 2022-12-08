@@ -1,9 +1,9 @@
 import React from "react";
 
-function Register() {
+function Login() {
   return (
     <form className="auth">
-      <h1 className="auth__title">Регистрация</h1>
+      <h1 className="auth__title">Вход</h1>
       <input
         className="auth__input"
         type="email"
@@ -19,11 +19,10 @@ function Register() {
         required
       ></input>
       <button type="submit" className="auth__submit-button">
-        Зарегистрироваться
+        Войти
       </button>
-      <p className="auth__login-suggest">Уже зарегистрированы? Войти</p>
     </form>
   );
 }
 
-export default Register;
+export default Login;
