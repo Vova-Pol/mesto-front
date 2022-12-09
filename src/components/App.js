@@ -159,54 +159,58 @@ function App() {
           <Route path="/sign-in">
             <Login />
           </Route>
-          <Route exact path="/">
-            <CurrentUserContext.Provider value={currentUser}>
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-              />
-              <Footer />
+          <Route path="/">
+            {!loggedIn ? (
+              <Redirect to="/sign-up" />
+            ) : (
+              <CurrentUserContext.Provider value={currentUser}>
+                <Main
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+                <Footer />
 
-              <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateUser={handleUpdateUser}
-              />
+                <EditProfilePopup
+                  isOpen={isEditProfilePopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateUser={handleUpdateUser}
+                />
 
-              <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateCards={handleUpdateCards}
-              />
+                <AddPlacePopup
+                  isOpen={isAddPlacePopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateCards={handleUpdateCards}
+                />
 
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-              <div className="popup" id="popup-delete-card">
-                <form className="popup__form">
-                  <h3 className="popup__title popup__title_type_delete">
-                    Вы уверены?
-                  </h3>
-                  <button className="popup__save-button" type="submit">
-                    Да
-                  </button>
-                  <button
-                    className="popup__close-button"
-                    type="button"
-                  ></button>
-                </form>
-              </div>
+                <div className="popup" id="popup-delete-card">
+                  <form className="popup__form">
+                    <h3 className="popup__title popup__title_type_delete">
+                      Вы уверены?
+                    </h3>
+                    <button className="popup__save-button" type="submit">
+                      Да
+                    </button>
+                    <button
+                      className="popup__close-button"
+                      type="button"
+                    ></button>
+                  </form>
+                </div>
 
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
-              />
-            </CurrentUserContext.Provider>
+                <EditAvatarPopup
+                  isOpen={isEditAvatarPopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateAvatar={handleUpdateAvatar}
+                />
+              </CurrentUserContext.Provider>
+            )}
           </Route>
         </Switch>
       </div>
