@@ -153,13 +153,13 @@ function App() {
         <Header />
 
         <Switch>
-          <Route path="/sign-up">
-            <Register />
-          </Route>
           <Route path="/sign-in">
             <Login />
           </Route>
-          <Route path="/">
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route exact path="/">
             {!loggedIn ? (
               <Redirect to="/sign-up" />
             ) : (
