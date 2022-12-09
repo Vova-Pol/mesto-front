@@ -1,7 +1,6 @@
 import React from "react";
 
 function Login() {
-  console.log("Login page is rendered");
   return (
     <form className="auth">
       <h1 className="auth__title">Вход</h1>

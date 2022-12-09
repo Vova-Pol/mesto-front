@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import * as auth from "../utils/auth";
 
-function Register(props) {
+function Register() {
   const [registerData, setRegisterData] = React.useState({
-    email: "",
     password: "",
+    email: "",
   });
-
-  console.log(registerData);
 
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -19,9 +18,14 @@ function Register(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
-    console.log("Well done!");
-    console.log(registerData);
+    auth
+      .register(registerData)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   return (
