@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [registerData, setRegisterData] = React.useState({
@@ -41,13 +42,20 @@ function Register() {
         name="password"
         placeholder="Пароль"
         required
+        minLength="2"
+        maxLength="40"
         onChange={handleChange}
         value={registerData.password}
       ></input>
       <button type="submit" className="auth__submit-button">
         Зарегистрироваться
       </button>
-      <p className="auth__login-suggest">Уже зарегистрированы? Войти</p>
+      <p className="auth__login-suggest">
+        Уже зарегистрированы?{" "}
+        <Link to="/sign-in" className="auth__link">
+          Войти
+        </Link>
+      </p>
     </form>
   );
 }
