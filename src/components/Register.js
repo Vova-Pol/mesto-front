@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as auth from "../utils/auth";
 
 function Register() {
+  const history = useHistory();
+
   const [registerData, setRegisterData] = React.useState({
     password: "",
     email: "",
@@ -21,7 +23,11 @@ function Register() {
     auth
       .register(registerData)
       .then((data) => {
+        if (data) {
+          history.push("/sign-in");
+        }
         console.log(data);
+        console.log("Ты зарегестрирован!");
       })
       .catch((err) => {
         console.error(err);
