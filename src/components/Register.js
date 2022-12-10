@@ -25,9 +25,9 @@ function Register() {
       .then((data) => {
         if (data) {
           history.push("/sign-in");
+          console.log("Ты зарегестрирован!");
         }
         console.log(data);
-        console.log("Ты зарегестрирован!");
       })
       .catch((err) => {
         console.error(err);

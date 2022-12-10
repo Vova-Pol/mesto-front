@@ -17,3 +17,20 @@ export function register(registerData) {
     }
   });
 }
+
+export function authorize(authorizationData) {
+  return fetch(`${BASE_URL}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(authorizationData),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject("Сервер ответил ошибкой: " + res.status);
+    }
+  });
+}
