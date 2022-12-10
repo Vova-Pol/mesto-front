@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import * as auth from "../utils/auth";
+import InfoTooltip from "./InfoTooltip";
 
 function Register() {
   const history = useHistory();
@@ -8,6 +9,11 @@ function Register() {
   const [registerData, setRegisterData] = React.useState({
     password: "",
     email: "",
+  });
+
+  const [tooltip, setTooltip] = React.useState({
+    isOpen: true,
+    isSuccess: true,
   });
 
   function handleChange(evt) {
@@ -35,38 +41,41 @@ function Register() {
   }
 
   return (
-    <form className="auth" onSubmit={handleSubmit}>
-      <h1 className="auth__title">Регистрация</h1>
-      <input
-        className="auth__input"
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-        onChange={handleChange}
-        value={registerData.email}
-      ></input>
-      <input
-        className="auth__input"
-        type="password"
-        name="password"
-        placeholder="Пароль"
-        required
-        minLength="2"
-        maxLength="40"
-        onChange={handleChange}
-        value={registerData.password}
-      ></input>
-      <button type="submit" className="auth__submit-button">
-        Зарегистрироваться
-      </button>
-      <p className="auth__login-suggest">
-        Уже зарегистрированы?{" "}
-        <Link to="/sign-in" className="auth__link">
-          Войти
-        </Link>
-      </p>
-    </form>
+    <>
+      <form className="auth" onSubmit={handleSubmit}>
+        <h1 className="auth__title">Регистрация</h1>
+        <input
+          className="auth__input"
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          onChange={handleChange}
+          value={registerData.email}
+        ></input>
+        <input
+          className="auth__input"
+          type="password"
+          name="password"
+          placeholder="Пароль"
+          required
+          minLength="2"
+          maxLength="40"
+          onChange={handleChange}
+          value={registerData.password}
+        ></input>
+        <button type="submit" className="auth__submit-button">
+          Зарегистрироваться
+        </button>
+        <p className="auth__login-suggest">
+          Уже зарегистрированы?{" "}
+          <Link to="/sign-in" className="auth__link">
+            Войти
+          </Link>
+        </p>
+      </form>
+      <InfoTooltip isOpen={tooltip.isOpen} isSuccess={tooltip.isSuccess} />
+    </>
   );
 }
 
