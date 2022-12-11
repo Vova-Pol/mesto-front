@@ -9,9 +9,10 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
+import * as auth from "../utils/auth";
 
 function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupIsOpen] = React.useState(false);
@@ -31,6 +32,7 @@ function App() {
   });
 
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const history = useHistory();
 
   React.useEffect(() => {
     api
@@ -145,6 +147,24 @@ function App() {
       });
   }, []);
 
+  // --- Auth
+
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
+  React.useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      auth.checkToken(jwt).then((data) => {
+        setLoggedIn(true);
+        history.push("/");
+        console.log("Добро пожаловать снова! Ваш токен успешно проверен.");
+        console.log(data);
+      });
+    }
+  });
+
   // --- Render
 
   return (
@@ -154,7 +174,7 @@ function App() {
 
         <Switch>
           <Route path="/sign-in">
-            <Login />
+            <Login handleLogin={handleLogin} />
           </Route>
           <Route path="/sign-up">
             <Register />

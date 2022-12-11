@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-function Login() {
+function Login(props) {
   const history = useHistory();
 
   const [authorizationData, setAuthorizationData] = React.useState({
@@ -25,9 +25,16 @@ function Login() {
       .authorize(authorizationData)
       .then((data) => {
         if (data) {
+          setAuthorizationData({
+            password: "",
+            email: "",
+          });
+          localStorage.setItem("jwt", data.token);
+          props.handleLogin();
           history.push("/");
           console.log(data.token);
           console.log("Вы авторизовались!");
+          console.log(localStorage.getItem("jwt"));
         }
       })
       .catch((err) => {
