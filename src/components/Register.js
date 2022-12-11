@@ -12,8 +12,8 @@ function Register() {
   });
 
   const [tooltip, setTooltip] = React.useState({
-    isOpen: true,
-    isSuccess: true,
+    isOpen: false,
+    isSuccess: false,
   });
 
   function handleChange(evt) {
@@ -30,14 +30,37 @@ function Register() {
       .register(registerData)
       .then((data) => {
         if (data) {
-          history.push("/sign-in");
-          console.log("Ты зарегестрирован!");
+          setTooltip({
+            isOpen: true,
+            isSuccess: true,
+          });
         }
         console.log(data);
       })
       .catch((err) => {
         console.error(err);
+        setTooltip({
+          isOpen: true,
+          isSuccess: false,
+        });
       });
+  }
+
+  function handleTooltipClose() {
+    if (tooltip.isSuccess) {
+      setTooltip({
+        ...tooltip,
+        isOpen: false,
+      });
+      history.push("/sign-in");
+      console.log("Ты успешно зарегестрировался и закрыл тултип.");
+    } else {
+      setTooltip({
+        ...tooltip,
+        isOpen: false,
+      });
+      console.log("Неуспешная регистрация и ты закрыл тултип.");
+    }
   }
 
   return (
@@ -74,7 +97,11 @@ function Register() {
           </Link>
         </p>
       </form>
-      <InfoTooltip isOpen={tooltip.isOpen} isSuccess={tooltip.isSuccess} />
+      <InfoTooltip
+        isOpen={tooltip.isOpen}
+        isSuccess={tooltip.isSuccess}
+        onClose={handleTooltipClose}
+      />
     </>
   );
 }
