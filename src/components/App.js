@@ -149,28 +149,49 @@ function App() {
 
   // --- Auth
 
-  function handleLogin() {
+  const [userAuthData, setUserAuthData] = React.useState({});
+
+  function handleLogin(userEmail) {
+    setUserAuthData({ email: userEmail });
     setLoggedIn(true);
   }
 
   React.useEffect(() => {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
-      auth.checkToken(jwt).then((data) => {
-        setLoggedIn(true);
-        history.push("/");
-        console.log("Добро пожаловать снова! Ваш токен успешно проверен.");
-        console.log(data);
-      });
+      auth
+        .checkToken(jwt)
+        .then((data) => {
+          setUserAuthData({
+            email: data.data.email,
+          });
+          setLoggedIn(true);
+          history.push("/");
+          console.log("Добро пожаловать снова! Ваш токен успешно проверен.");
+        })
+        .catch((err) => {
+          console.error(err);
+          history.push("/sign-in");
+        });
     }
-  });
+  }, [history]);
+
+  function handleHeaderLink() {
+    if (loggedIn) {
+      setLoggedIn(false);
+    }
+  }
 
   // --- Render
 
   return (
     <div className="page">
       <div className="page__container">
-        <Header />
+        <Header
+          loggedIn={loggedIn}
+          email={userAuthData.email}
+          onClickLink={handleHeaderLink}
+        />
 
         <Switch>
           <Route path="/sign-in">

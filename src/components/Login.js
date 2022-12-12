@@ -25,16 +25,13 @@ function Login(props) {
       .authorize(authorizationData)
       .then((data) => {
         if (data) {
+          props.handleLogin(authorizationData.email);
           setAuthorizationData({
             password: "",
             email: "",
           });
           localStorage.setItem("jwt", data.token);
-          props.handleLogin();
           history.push("/");
-          console.log(data.token);
-          console.log("Вы авторизовались!");
-          console.log(localStorage.getItem("jwt"));
         }
       })
       .catch((err) => {
