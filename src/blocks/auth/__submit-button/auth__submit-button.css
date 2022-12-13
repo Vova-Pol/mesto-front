@@ -12,3 +12,7 @@
   margin: 0 auto 15px auto;
   border: 0;
 }
+
+.auth__submit-button:hover {
+  opacity: 0.85;
+}

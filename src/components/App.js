@@ -167,7 +167,6 @@ function App() {
           });
           setLoggedIn(true);
           history.push("/");
-          console.log("Добро пожаловать снова! Ваш токен успешно проверен.");
         })
         .catch((err) => {
           console.error(err);

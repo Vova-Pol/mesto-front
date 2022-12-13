@@ -4,7 +4,6 @@ import { Link, useHistory } from "react-router-dom";
 function Header(props) {
   const [linkPath, setLinkPath] = React.useState("");
   const history = useHistory();
-  console.log(history.location.pathname);
 
   let currentPath = history.location.pathname;
   let isSignInPage = currentPath === "/sign-in";
@@ -13,17 +12,16 @@ function Header(props) {
   React.useEffect(() => {
     if (props.loggedIn) {
       setLinkPath("/sign-in");
-      console.log("You are logged in");
     } else if (isSignUpPage) {
       setLinkPath("/sign-in");
-      console.log("You are on Sign-up");
     } else if (isSignInPage) {
       setLinkPath("/sign-up");
-      console.log("You are on sign-in");
+    } else if (!props.loggedIn && currentPath === "/") {
+      setLinkPath("/sign-in");
     } else {
       console.log("Где-то в Header.js должна быть ошибка...");
     }
-  }, [props, isSignInPage, isSignUpPage]);
+  }, [props, isSignInPage, isSignUpPage, currentPath]);
 
   function handleLinkClick() {
     if (props.loggedIn) {
@@ -39,7 +37,6 @@ function Header(props) {
       console.error("Что-то пошло не так в Header.js");
     }
   }
-  console.log(props.email);
 
   return (
     <header className="header">

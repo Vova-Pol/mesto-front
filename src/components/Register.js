@@ -35,7 +35,6 @@ function Register() {
             isSuccess: true,
           });
         }
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);
@@ -53,13 +52,11 @@ function Register() {
         isOpen: false,
       });
       history.push("/sign-in");
-      console.log("Ты успешно зарегестрировался и закрыл тултип.");
     } else {
       setTooltip({
         ...tooltip,
         isOpen: false,
       });
-      console.log("Неуспешная регистрация и ты закрыл тултип.");
     }
   }
 
