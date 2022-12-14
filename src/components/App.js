@@ -196,9 +196,11 @@ function App() {
           <Route path="/sign-in">
             <Login handleLogin={handleLogin} />
           </Route>
+
           <Route path="/sign-up">
             <Register />
           </Route>
+
           <Route exact path="/">
             {!loggedIn ? (
               <Redirect to="/sign-up" />

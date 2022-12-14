@@ -3,7 +3,7 @@ import { apiConfig } from "./utils";
 export class Api {
   constructor(apiConfig) {
     this._baseUrl = apiConfig.baseUrl;
-    this._init = apiConfig.init;
+    this._token = apiConfig.token;
   }
 
   requestInitialCards() {
@@ -24,14 +24,21 @@ export class Api {
   }
 
   sendRequest(urlEnding, method, data = null) {
-    this._init.method = method;
     const url = this._baseUrl + urlEnding;
+    const init = {
+      method: method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        authorization: this._token,
+      },
+    };
 
-    if (data) {
-      this._init.body = JSON.stringify(data);
+    if (method !== "GET" && method !== "DELETE") {
+      init.body = JSON.stringify(data);
     }
 
-    return fetch(url, this._init).then((res) => {
+    return fetch(url, init).then((res) => {
       if (res.ok) {
         return res.json();
       } else {

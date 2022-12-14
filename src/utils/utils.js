@@ -7,10 +7,5 @@ export const validationConfig = {
 
 export const apiConfig = {
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-52/",
-  init: {
-    headers: {
-      authorization: "a1ce3bf4-12b8-45c2-ab0a-cd13960bbeb4",
-      "Content-Type": "application/json",
-    },
-  },
+  token: "a1ce3bf4-12b8-45c2-ab0a-cd13960bbeb4",
 };
