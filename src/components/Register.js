@@ -1,19 +1,12 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import * as auth from "../utils/auth";
-import InfoTooltip from "./InfoTooltip";
 
-function Register() {
+function Register(props) {
   const history = useHistory();
 
   const [registerData, setRegisterData] = React.useState({
     password: "",
     email: "",
-  });
-
-  const [tooltip, setTooltip] = React.useState({
-    isOpen: false,
-    isSuccess: false,
   });
 
   function handleChange(evt) {
@@ -26,38 +19,7 @@ function Register() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    auth
-      .register(registerData)
-      .then((data) => {
-        if (data) {
-          setTooltip({
-            isOpen: true,
-            isSuccess: true,
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setTooltip({
-          isOpen: true,
-          isSuccess: false,
-        });
-      });
-  }
-
-  function handleTooltipClose() {
-    if (tooltip.isSuccess) {
-      setTooltip({
-        ...tooltip,
-        isOpen: false,
-      });
-      history.push("/sign-in");
-    } else {
-      setTooltip({
-        ...tooltip,
-        isOpen: false,
-      });
-    }
+    props.handleRegister(registerData);
   }
 
   return (
@@ -94,11 +56,6 @@ function Register() {
           </Link>
         </p>
       </form>
-      <InfoTooltip
-        isOpen={tooltip.isOpen}
-        isSuccess={tooltip.isSuccess}
-        onClose={handleTooltipClose}
-      />
     </>
   );
 }

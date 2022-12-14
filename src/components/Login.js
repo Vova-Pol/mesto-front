@@ -20,9 +20,7 @@ function Login(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-
     props.handleLogin(authorizationData);
-
     setAuthorizationData({
       password: "",
       email: "",

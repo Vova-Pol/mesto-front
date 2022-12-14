@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import { Route, Redirect, Switch, useHistory } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 import * as auth from "../utils/auth";
 
 function App() {
@@ -167,6 +168,48 @@ function App() {
       });
   }
 
+  function handleRegister(registerData) {
+    auth
+      .register(registerData)
+      .then((data) => {
+        if (data) {
+          setTooltip({
+            isOpen: true,
+            isSuccess: true,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setTooltip({
+          isOpen: true,
+          isSuccess: false,
+        });
+      });
+  }
+
+  // --- Tooltip
+
+  const [tooltip, setTooltip] = React.useState({
+    isOpen: false,
+    isSuccess: false,
+  });
+
+  function handleTooltipClose() {
+    if (tooltip.isSuccess) {
+      setTooltip({
+        ...tooltip,
+        isOpen: false,
+      });
+      history.push("/sign-in");
+    } else {
+      setTooltip({
+        ...tooltip,
+        isOpen: false,
+      });
+    }
+  }
+
   React.useEffect(() => {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
@@ -209,7 +252,12 @@ function App() {
           </Route>
 
           <Route path="/sign-up">
-            <Register />
+            <Register handleRegister={handleRegister} />
+            <InfoTooltip
+              isOpen={tooltip.isOpen}
+              isSuccess={tooltip.isSuccess}
+              onClose={handleTooltipClose}
+            />
           </Route>
 
           <Route exact path="/">
