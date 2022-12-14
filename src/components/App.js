@@ -151,9 +151,20 @@ function App() {
 
   const [userAuthData, setUserAuthData] = React.useState({});
 
-  function handleLogin(userEmail) {
-    setUserAuthData({ email: userEmail });
-    setLoggedIn(true);
+  function handleLogin(authData) {
+    auth
+      .authorize(authData)
+      .then((data) => {
+        if (data) {
+          setUserAuthData({ email: authData.email });
+          setLoggedIn(true);
+          localStorage.setItem("jwt", data.token);
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        console.error("Сервер ответил ошибкой: " + err);
+      });
   }
 
   React.useEffect(() => {

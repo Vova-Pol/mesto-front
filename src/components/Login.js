@@ -21,22 +21,12 @@ function Login(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    auth
-      .authorize(authorizationData)
-      .then((data) => {
-        if (data) {
-          props.handleLogin(authorizationData.email);
-          setAuthorizationData({
-            password: "",
-            email: "",
-          });
-          localStorage.setItem("jwt", data.token);
-          history.push("/");
-        }
-      })
-      .catch((err) => {
-        console.error("Сервер ответил ошибкой: " + err);
-      });
+    props.handleLogin(authorizationData);
+
+    setAuthorizationData({
+      password: "",
+      email: "",
+    });
   }
 
   return (
