@@ -5,9 +5,9 @@ function Header(props) {
   const [linkPath, setLinkPath] = React.useState("");
   const history = useHistory();
 
-  let currentPath = history.location.pathname;
-  let isSignInPage = currentPath === "/sign-in";
-  let isSignUpPage = currentPath === "/sign-up";
+  const currentPath = history.location.pathname;
+  const isSignInPage = currentPath === "/sign-in";
+  const isSignUpPage = currentPath === "/sign-up";
 
   React.useEffect(() => {
     if (props.loggedIn) {
