@@ -1,19 +1,17 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
-import { useForm } from "../hooks/useForm";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function AddPlacePopup(props) {
   React.useEffect(() => {
-    setValues({
+    resetForm();
+  }, [props.isOpen]);
+
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation({
       name: "",
       link: "",
     });
-  }, [props.isOpen]);
-
-  const { values, handleChange, setValues } = useForm({
-    name: "",
-    link: "",
-  });
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -41,7 +39,9 @@ function AddPlacePopup(props) {
         onChange={handleChange}
         value={values.name}
       />
-      <span className="popup__input-error" id="place-name-input-error"></span>
+      <span className="popup__input-error" id="place-name-input-error">
+        {isValid ? "" : errors.name}
+      </span>
       <input
         type="url"
         placeholder="Ссылка на картинку"
@@ -52,7 +52,9 @@ function AddPlacePopup(props) {
         onChange={handleChange}
         value={values.link}
       />
-      <span className="popup__input-error" id="place-link-input-error"></span>
+      <span className="popup__input-error" id="place-link-input-error">
+        {isValid ? "" : errors.link}
+      </span>
     </PopupWithForm>
   );
 }

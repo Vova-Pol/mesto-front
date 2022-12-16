@@ -6,13 +6,9 @@
   border-bottom: 2px solid #ccc;
   color: #ccc;
   background-color: #ccc0;
-  margin-bottom: 30px;
   outline: none;
   padding-bottom: 13px;
-}
-
-.auth__input:last-of-type {
-  margin-bottom: 216px;
+  margin-bottom: 7px;
 }
 
 .auth__input::placeholder {

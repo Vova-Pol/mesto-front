@@ -74,6 +74,7 @@
 @import url(./blocks/auth/__submit-button/auth__submit-button.css);
 @import url(./blocks/auth/__login-suggest/auth__login-suggest.css);
 @import url(./blocks/auth/__link/auth__link.css);
+@import url(./blocks/auth/__input-error/auth__input-error.css);
 
 /* Tooltip */
 @import url(./blocks/tooltip/tooltip.css);

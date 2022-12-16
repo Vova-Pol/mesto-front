@@ -1,19 +1,21 @@
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
-import { useForm } from "../hooks/useForm";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
+    resetForm();
     setValues(currentUser);
   }, [currentUser, props.isOpen]);
 
-  const { values, handleChange, setValues } = useForm({
-    name: "",
-    about: "",
-  });
+  const { values, handleChange, setValues, errors, isValid, resetForm } =
+    useFormAndValidation({
+      name: "",
+      about: "",
+    });
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -41,7 +43,9 @@ function EditProfilePopup(props) {
         value={values.name}
         onChange={handleChange}
       />
-      <span className="popup__input-error" id="profile-name-input-error"></span>
+      <span className="popup__input-error" id="profile-name-input-error">
+        {isValid ? "" : errors.name}
+      </span>
       <input
         type="text"
         placeholder="Род деятельности"
@@ -54,10 +58,9 @@ function EditProfilePopup(props) {
         value={values.about}
         onChange={handleChange}
       />
-      <span
-        className="popup__input-error"
-        id="profile-occupation-input-error"
-      ></span>
+      <span className="popup__input-error" id="profile-occupation-input-error">
+        {isValid ? "" : errors.about}
+      </span>
     </PopupWithForm>
   );
 }

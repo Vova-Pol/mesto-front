@@ -1,28 +1,11 @@
 import React from "react";
 import AuthForm from "./AuthForm";
-import { useForm } from "../hooks/useForm";
 
 function Login(props) {
-  const { values, handleChange, setValues } = useForm({
-    password: "",
-    email: "",
-  });
-
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    props.handleLogin(values);
-    setValues({
-      password: "",
-      email: "",
-    });
-  }
-
   return (
     <AuthForm
-      handleSubmit={handleSubmit}
+      handleLogin={props.handleLogin}
       formName="Вход"
-      handleChange={handleChange}
-      inputsValues={values}
       submitButtonName="Войти"
     />
   );

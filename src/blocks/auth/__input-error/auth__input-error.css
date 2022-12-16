@@ -1,0 +1,11 @@
+.auth__input-error {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+  min-height: 30px;
+}
+
+.auth__input-error:last-of-type {
+  margin-bottom: 186px;
+}
