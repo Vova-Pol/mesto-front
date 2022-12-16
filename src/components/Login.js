@@ -1,65 +1,28 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import AuthForm from "./AuthForm";
+import { useForm } from "../hooks/useForm";
 
 function Login(props) {
-  const history = useHistory();
-
-  const [authorizationData, setAuthorizationData] = React.useState({
+  const { values, handleChange, setValues } = useForm({
     password: "",
     email: "",
   });
 
-  function handleChange(evt) {
-    const { name, value } = evt.target;
-    setAuthorizationData({
-      ...authorizationData,
-      [name]: value,
-    });
-  }
-
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.handleLogin(authorizationData);
-    setAuthorizationData({
+    props.handleLogin(values);
+    setValues({
       password: "",
       email: "",
     });
   }
 
   return (
-    // <form className="auth" onSubmit={handleSubmit}>
-    //   <h1 className="auth__title">Вход</h1>
-    //   <input
-    //     className="auth__input"
-    //     type="email"
-    //     name="email"
-    //     placeholder="Email"
-    //     required
-    //     onChange={handleChange}
-    //     value={authorizationData.email}
-    //   ></input>
-    //   <input
-    //     className="auth__input"
-    //     type="password"
-    //     name="password"
-    //     placeholder="Пароль"
-    //     required
-    //     minLength="2"
-    //     maxLength="40"
-    //     onChange={handleChange}
-    //     value={authorizationData.password}
-    //   ></input>
-    //   <button type="submit" className="auth__submit-button">
-    //     Войти
-    //   </button>
-    // </form>
     <AuthForm
       handleSubmit={handleSubmit}
       formName="Вход"
       handleChange={handleChange}
-      emailInputValue={authorizationData.email}
-      passwordInputValue={authorizationData.password}
+      inputsValues={values}
       submitButtonName="Войти"
     />
   );

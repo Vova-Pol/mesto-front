@@ -9,7 +9,7 @@ function AuthForm(props) {
         placeholder="Email"
         required
         onChange={props.handleChange}
-        value={props.emailInputValue}
+        value={props.inputsValues.email}
       ></input>
       <input
         className="auth__input"
@@ -20,7 +20,7 @@ function AuthForm(props) {
         minLength="2"
         maxLength="40"
         onChange={props.handleChange}
-        value={props.passwordInputValue}
+        value={props.inputsValues.password}
       ></input>
       <button type="submit" className="auth__submit-button">
         {props.submitButtonName}
