@@ -1,7 +1,7 @@
-import React from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import PopupWithForm from "./PopupWithForm";
-import { useFormAndValidation } from "../hooks/useFormAndValidation";
+import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import PopupWithForm from './PopupWithForm';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
 
 function EditProfilePopup(props) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -13,8 +13,8 @@ function EditProfilePopup(props) {
 
   const { values, handleChange, setValues, errors, isValid, resetForm } =
     useFormAndValidation({
-      name: "",
-      about: "",
+      name: '',
+      about: '',
     });
 
   function handleSubmit(evt) {
@@ -38,13 +38,13 @@ function EditProfilePopup(props) {
         className="popup__input"
         id="profile-name-input"
         required
-        minLength="2"
-        maxLength="40"
+        minLength={2}
+        maxLength={40}
         value={values.name}
         onChange={handleChange}
       />
       <span className="popup__input-error" id="profile-name-input-error">
-        {isValid ? "" : errors.name}
+        {isValid ? '' : errors.name}
       </span>
       <input
         type="text"
@@ -53,13 +53,13 @@ function EditProfilePopup(props) {
         className="popup__input"
         id="profile-occupation-input"
         required
-        minLength="2"
-        maxLength="200"
+        minLength={2}
+        maxLength={200}
         value={values.about}
         onChange={handleChange}
       />
       <span className="popup__input-error" id="profile-occupation-input-error">
-        {isValid ? "" : errors.about}
+        {isValid ? '' : errors.about}
       </span>
     </PopupWithForm>
   );
