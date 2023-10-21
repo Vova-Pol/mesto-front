@@ -1,59 +1,70 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
-import { useFormAndValidation } from "../hooks/useFormAndValidation";
+import React, { FC, FormEvent, ReactElement, useEffect } from 'react';
+import PopupWithForm from './PopupWithForm';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
+import { IUpdateCardsValues } from '../types/cards';
 
-function AddPlacePopup(props) {
-  React.useEffect(() => {
+interface IAddPlacePopupProps {
+  isOpen: boolean;
+  onUpdateCards: (values: IUpdateCardsValues) => void;
+  onClose: () => void;
+}
+
+function AddPlacePopup({
+  isOpen,
+  onClose,
+  onUpdateCards,
+}: IAddPlacePopupProps): ReactElement {
+  useEffect(() => {
     resetForm();
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation({
-      name: "",
-      link: "",
+    useFormAndValidation<IUpdateCardsValues>({
+      cardName: '',
+      imageUrl: '',
     });
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    props.onUpdateCards(values);
+    onUpdateCards(values);
   }
 
   return (
     <PopupWithForm
       title="Новое место"
       name="add-post"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Создать"
     >
       <input
         type="text"
         placeholder="Название места"
-        name="name"
+        name="cardName"
         className="popup__input"
-        id="place-name-input"
+        id="card-name-input"
         required
-        minLength="2"
-        maxLength="30"
+        minLength={2}
+        maxLength={30}
         onChange={handleChange}
-        value={values.name}
+        value={values.cardName}
       />
-      <span className="popup__input-error" id="place-name-input-error">
-        {isValid ? "" : errors.name}
+      <span className="popup__input-error" id="card-name-input-error">
+        {isValid ? '' : errors.cardName}
       </span>
       <input
         type="url"
         placeholder="Ссылка на картинку"
-        name="link"
+        name="imageUrl"
         className="popup__input"
-        id="place-link-input"
+        id="place-image-input"
         required
         onChange={handleChange}
-        value={values.link}
+        value={values.imageUrl}
       />
-      <span className="popup__input-error" id="place-link-input-error">
-        {isValid ? "" : errors.link}
+      <span className="popup__input-error" id="place-image-input-error">
+        {isValid ? '' : errors.imageUrl}
       </span>
     </PopupWithForm>
   );
