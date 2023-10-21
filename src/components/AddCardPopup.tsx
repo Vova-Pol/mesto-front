@@ -3,17 +3,17 @@ import PopupWithForm from './PopupWithForm';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 import { IUpdateCardsValues } from '../types/cards';
 
-interface IAddPlacePopupProps {
+interface IAddCardPopupProps {
   isOpen: boolean;
   onUpdateCards: (values: IUpdateCardsValues) => void;
   onClose: () => void;
 }
 
-function AddPlacePopup({
+function AddCardPopup({
   isOpen,
   onClose,
   onUpdateCards,
-}: IAddPlacePopupProps): ReactElement {
+}: IAddCardPopupProps): ReactElement {
   useEffect(() => {
     resetForm();
   }, [isOpen]);
@@ -70,4 +70,4 @@ function AddPlacePopup({
   );
 }
 
-export default AddPlacePopup;
+export default AddCardPopup;
