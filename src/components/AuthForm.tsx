@@ -1,30 +1,40 @@
-import React from "react";
-import { useFormAndValidation } from "../hooks/useFormAndValidation";
+import React, { FormEvent, ReactElement, useEffect } from 'react';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
+import { IAuthFormValues } from '../types/auth';
 
-function AuthForm(props) {
-  React.useEffect(() => {
+interface IAuthFormProps {
+  formName: string;
+  handleRegister: (values: IAuthFormValues) => void;
+  handleLogin: (values: IAuthFormValues) => void;
+  submitButtonName: string;
+}
+
+function AuthForm({
+  formName,
+  submitButtonName,
+  handleLogin,
+  handleRegister,
+}: IAuthFormProps): ReactElement {
+  useEffect(() => {
     resetForm();
   }, []);
 
   const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation({
-      password: "",
-      email: "",
+    useFormAndValidation<IAuthFormValues>({
+      password: '',
+      email: '',
     });
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    if (props.formName === "Регистрация") {
-      props.handleRegister(values);
-    } else if (props.formName === "Вход") {
-      props.handleLogin(values);
-    }
+    if (formName === 'Регистрация') handleRegister(values);
+    if (formName === 'Вход') handleLogin(values);
   }
 
   return (
     <form className="auth" onSubmit={handleSubmit}>
-      <h1 className="auth__title">{props.formName}</h1>
+      <h1 className="auth__title">{formName}</h1>
       <input
         className="auth__input"
         type="email"
@@ -34,23 +44,23 @@ function AuthForm(props) {
         onChange={handleChange}
         value={values.email}
       ></input>
-      <span className="auth__input-error">{isValid ? "" : errors.email}</span>
+      <span className="auth__input-error">{isValid ? '' : errors.email}</span>
       <input
         className="auth__input"
         type="password"
         name="password"
         placeholder="Пароль"
         required
-        minLength="2"
-        maxLength="40"
+        minLength={2}
+        maxLength={40}
         onChange={handleChange}
         value={values.password}
       ></input>
       <span className="auth__input-error">
-        {isValid ? "" : errors.password}
+        {isValid ? '' : errors.password}
       </span>
       <button type="submit" className="auth__submit-button">
-        {props.submitButtonName}
+        {submitButtonName}
       </button>
     </form>
   );
