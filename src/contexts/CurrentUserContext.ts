@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICurrentUser } from '../types/user';
+import { IUser } from '../types/user';
 
 const defaultCuurrentUser = {
   name: '',
@@ -10,4 +10,4 @@ const defaultCuurrentUser = {
 };
 
 export const CurrentUserContext =
-  React.createContext<ICurrentUser>(defaultCuurrentUser);
+  React.createContext<IUser>(defaultCuurrentUser);
