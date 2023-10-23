@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, ReactElement, useEffect } from 'react';
+import React, { FormEvent, ReactElement, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 import { IUpdateCardsValues } from '../types/cards';
