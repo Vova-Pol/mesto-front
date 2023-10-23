@@ -9,3 +9,8 @@ export interface IUser {
 export interface IUpdateAvatarValues {
   avatar: string;
 }
+
+export interface IUpdateUserProfileValues {
+  name: string;
+  about: string;
+}
