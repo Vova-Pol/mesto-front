@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement, useEffect } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 import PopupWithForm from './PopupWithForm';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 import { IUpdateCardsValues } from '../types/cards';
@@ -14,7 +14,7 @@ function AddCardPopup({
   onClose,
   onUpdateCards,
 }: IAddCardPopupProps): ReactElement {
-  useEffect(() => {
+  React.useEffect(() => {
     resetForm();
   }, [isOpen]);
 

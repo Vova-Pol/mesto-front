@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
-import api from '../utils/api.js';
+import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
-import AddPlacePopup from './AddPlacePopup';
-import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
+import AddCardPopup from './AddCardPopup';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import * as auth from '../utils/auth';
 
-function App() {
-  const [isAddPlacePopupOpen, setAddPlacePopupIsOpen] = React.useState(false);
+function App(): ReactElement {
+  const [isAddCardPopupOpen, setAddCardPopupIsOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupIsOpen] =
     React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupIsOpen] =
@@ -46,8 +46,8 @@ function App() {
       });
   }, []);
 
-  function handleAddPlaceClick() {
-    setAddPlacePopupIsOpen(true);
+  function handleAddCardClick() {
+    setAddCardPopupIsOpen(true);
   }
 
   const handleEditAvatarClick = () => {
@@ -63,7 +63,7 @@ function App() {
   }
 
   function closeAllPopups() {
-    setAddPlacePopupIsOpen(false);
+    setAddCardPopupIsOpen(false);
     setEditAvatarPopupIsOpen(false);
     setEditProfilePopupIsOpen(false);
     setSelectedCard();
@@ -265,10 +265,10 @@ function App() {
             {/* {!loggedIn ? (
               <Redirect to="/sign-up" />
             ) : ( */}
-            <CurrentUserContext.Provider value={currentUser}>
+            <CurrentUserContext.Prov_ider value={currentUser}>
               <Main
                 onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
+                onAddCard={handleAddCardClick}
                 onEditAvatar={handleEditAvatarClick}
                 onCardClick={handleCardClick}
                 cards={cards}
@@ -283,15 +283,15 @@ function App() {
                 onUpdateUser={handleUpdateUser}
               />
 
-              <AddPlacePopup
-                isOpen={isAddPlacePopupOpen}
+              <AddCardPopup
+                isOpen={isAddCardPopupOpen}
                 onClose={closeAllPopups}
                 onUpdateCards={handleUpdateCards}
               />
 
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-              <div className="popup" id="popup-delete-card">
+              <div className="popup" _id="popup-delete-card">
                 <form className="popup__form">
                   <h3 className="popup__title popup__title_type_delete">
                     Вы уверены?
@@ -311,7 +311,7 @@ function App() {
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
               />
-            </CurrentUserContext.Provider>
+            </CurrentUserContext.Prov_ider>
             {/* )} */}
           </Route>
         </Switch>

@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactElement, useEffect } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
 import { IAuthFormValues } from '../types/auth';
 
@@ -15,7 +15,7 @@ function AuthForm({
   handleLogin,
   handleRegister,
 }: IAuthFormProps): ReactElement {
-  useEffect(() => {
+  React.useEffect(() => {
     resetForm();
   }, []);
 
