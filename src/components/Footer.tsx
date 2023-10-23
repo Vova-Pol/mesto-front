@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-function Footer() {
+function Footer(): ReactElement {
   return (
     <footer className="footer section-sizing">
       <p className="footer__text">
