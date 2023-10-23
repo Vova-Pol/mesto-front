@@ -1,28 +1,39 @@
-import PopupWithForm from "./PopupWithForm";
-import { useFormAndValidation } from "../hooks/useFormAndValidation";
-import React from "react";
+import PopupWithForm from './PopupWithForm';
+import { useFormAndValidation } from '../hooks/useFormAndValidation';
+import React, { FormEvent, ReactElement } from 'react';
+import { IUpdateAvatarValues } from '../types/user';
 
-function EditAvatarPopup(props) {
+interface IEditAvatarPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdateAvatar: (values: IUpdateAvatarValues) => void;
+}
+
+function EditAvatarPopup({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+}: IEditAvatarPopupProps): ReactElement {
   React.useEffect(() => {
     resetForm();
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation({
-      avatar: "",
+    useFormAndValidation<IUpdateAvatarValues>({
+      avatar: '',
     });
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    props.onUpdateAvatar(values);
+    onUpdateAvatar(values);
   }
 
   return (
     <PopupWithForm
       title="Обновить аватар"
       name="avatar-image"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Сохранить"
     >
@@ -37,7 +48,7 @@ function EditAvatarPopup(props) {
         value={values.avatar}
       />
       <span className="popup__input-error" id="avatar-link-input-error">
-        {isValid ? "" : errors.avatar}
+        {isValid ? '' : errors.avatar}
       </span>
     </PopupWithForm>
   );
