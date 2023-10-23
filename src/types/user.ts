@@ -5,3 +5,7 @@ export interface IUser {
   _id: string;
   cohort: string;
 }
+
+export interface IUpdateAvatarValues {
+  avatar: string;
+}
