@@ -1,33 +1,44 @@
-import React from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 import { useFormAndValidation } from '../hooks/useFormAndValidation';
+import { IUpdateUserProfileValues } from '../types/user';
 
-function EditProfilePopup(props) {
+interface IEditProfilePopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdateUser: (values: IUpdateUserProfileValues) => void;
+}
+
+function EditProfilePopup({
+  isOpen,
+  onClose,
+  onUpdateUser,
+}: IEditProfilePopupProps): ReactElement {
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
     resetForm();
     setValues(currentUser);
-  }, [currentUser, props.isOpen]);
+  }, [currentUser, isOpen]);
 
   const { values, handleChange, setValues, errors, isValid, resetForm } =
-    useFormAndValidation({
+    useFormAndValidation<IUpdateUserProfileValues>({
       name: '',
       about: '',
     });
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
-    props.onUpdateUser(values);
+    onUpdateUser(values);
   }
 
   return (
     <PopupWithForm
       title="Редактировать профиль"
       name="edit-profile"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       buttonText="Сохранить"
     >
