@@ -14,6 +14,9 @@ import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
 import * as auth from '../utils/auth';
+import { ICard, IUpdateCardsValues } from '../types/cards';
+import { IUpdateAvatarValues, IUpdateUserProfileValues } from '../types/user';
+import { IAuthFormValues } from '../types/auth';
 
 function App(): ReactElement {
   const [isAddCardPopupOpen, setAddCardPopupIsOpen] = React.useState(false);
@@ -22,7 +25,23 @@ function App(): ReactElement {
   const [isEditProfilePopupOpen, setEditProfilePopupIsOpen] =
     React.useState(false);
 
-  const [selectedCard, setSelectedCard] = React.useState();
+  const initSelectedCard = {
+    likes: [],
+    _id: '',
+    name: '',
+    link: '',
+    owner: {
+      name: '',
+      about: '',
+      avatar: '',
+      _id: '',
+      cohort: '',
+    },
+    createdAt: '',
+  };
+
+  const [selectedCard, setSelectedCard] =
+    React.useState<ICard>(initSelectedCard);
 
   const [currentUser, setCurrentUser] = React.useState({
     name: '',
@@ -58,7 +77,7 @@ function App(): ReactElement {
     setEditProfilePopupIsOpen(true);
   }
 
-  function handleCardClick(cardData) {
+  function handleCardClick(cardData: ICard) {
     setSelectedCard(cardData);
   }
 
@@ -66,12 +85,12 @@ function App(): ReactElement {
     setAddCardPopupIsOpen(false);
     setEditAvatarPopupIsOpen(false);
     setEditProfilePopupIsOpen(false);
-    setSelectedCard();
+    setSelectedCard(initSelectedCard);
   }
 
-  function handleUpdateUser(newData) {
+  function handleUpdateUser(newData: IUpdateUserProfileValues) {
     api
-      .sendRequest('users/me', 'PATCH', newData)
+      .updateUserProfile(newData)
       .then((userData) => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -81,9 +100,9 @@ function App(): ReactElement {
       });
   }
 
-  function handleUpdateAvatar(newData) {
+  function handleUpdateAvatar(newData: IUpdateAvatarValues) {
     api
-      .sendRequest('users/me/avatar', 'PATCH', newData)
+      .updateUserAvatar(newData)
       .then((userData) => {
         setCurrentUser(userData);
         closeAllPopups();
@@ -93,9 +112,9 @@ function App(): ReactElement {
       });
   }
 
-  function handleUpdateCards(newData) {
+  function handleUpdateCards(newData: IUpdateCardsValues) {
     api
-      .sendRequest('cards', 'POST', newData)
+      .updateCards(newData)
       .then((cardData) => {
         setCards([cardData, ...cards]);
         closeAllPopups();
@@ -107,9 +126,9 @@ function App(): ReactElement {
 
   // --- Cards
 
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = React.useState<ICard[]>([]);
 
-  function handleCardLike(card) {
+  function handleCardLike(card: ICard) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
     api
@@ -126,7 +145,7 @@ function App(): ReactElement {
       });
   }
 
-  function handleCardDelete(card) {
+  function handleCardDelete(card: ICard) {
     api
       .changeDeleteCardStatus(card)
       .then(() => {
@@ -150,9 +169,11 @@ function App(): ReactElement {
 
   // --- Auth
 
-  const [userAuthData, setUserAuthData] = React.useState({});
+  const [userAuthData, setUserAuthData] = React.useState({
+    email: '',
+  });
 
-  function handleLogin(authData) {
+  function handleLogin(authData: IAuthFormValues) {
     auth
       .authorize(authData)
       .then((data) => {
@@ -168,7 +189,7 @@ function App(): ReactElement {
       });
   }
 
-  function handleRegister(registerData) {
+  function handleRegister(registerData: IAuthFormValues) {
     auth
       .register(registerData)
       .then((data) => {
@@ -265,7 +286,7 @@ function App(): ReactElement {
             {/* {!loggedIn ? (
               <Redirect to="/sign-up" />
             ) : ( */}
-            <CurrentUserContext.Prov_ider value={currentUser}>
+            <CurrentUserContext.Provider value={currentUser}>
               <Main
                 onEditProfile={handleEditProfileClick}
                 onAddCard={handleAddCardClick}
@@ -291,7 +312,7 @@ function App(): ReactElement {
 
               <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-              <div className="popup" _id="popup-delete-card">
+              <div className="popup" id="popup-delete-card">
                 <form className="popup__form">
                   <h3 className="popup__title popup__title_type_delete">
                     Вы уверены?
@@ -311,7 +332,7 @@ function App(): ReactElement {
                 onClose={closeAllPopups}
                 onUpdateAvatar={handleUpdateAvatar}
               />
-            </CurrentUserContext.Prov_ider>
+            </CurrentUserContext.Provider>
             {/* )} */}
           </Route>
         </Switch>

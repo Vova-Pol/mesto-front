@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react';
+import React, { FormEvent, ReactElement } from 'react';
 
 interface IPopupWithFormProps {
   isOpen: boolean;
   name: string;
-  onSubmit: () => void;
+  onSubmit: (evt: FormEvent<HTMLFormElement>) => void;
   title: string;
   children: ReactElement[];
   buttonText: string;

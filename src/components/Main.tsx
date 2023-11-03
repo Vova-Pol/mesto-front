@@ -1,20 +1,20 @@
 import React, { ReactElement } from 'react';
 import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { ICard } from '../types/cards';
 
 interface IMainProps {
   onEditAvatar: () => void;
   onEditProfile: () => void;
-  onAddPlace: () => void;
+  onAddCard: () => void;
   cards: ICard[];
-  onCardClick: () => void;
-  onCardLike: () => void;
-  onCardDelete: () => void;
+  onCardClick: (card: ICard) => void;
+  onCardLike: (card: ICard) => void;
+  onCardDelete: (card: ICard) => void;
 }
 
 function Main({
-  onAddPlace,
+  onAddCard,
   onCardClick,
   onCardDelete,
   onCardLike,
@@ -45,7 +45,7 @@ function Main({
             onClick={onEditProfile}
           ></button>
         </article>
-        <button className="profile__add-button" onClick={onAddPlace}></button>
+        <button className="profile__add-button" onClick={onAddCard}></button>
       </section>
 
       <section className="elements section-sizing">
