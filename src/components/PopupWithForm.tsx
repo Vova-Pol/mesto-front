@@ -1,30 +1,48 @@
-import React from "react";
+import React, { ReactElement } from 'react';
 
-function PopupWithForm(props) {
+interface IPopupWithFormProps {
+  isOpen: boolean;
+  name: string;
+  onSubmit: () => void;
+  title: string;
+  children: ReactElement[];
+  buttonText: string;
+  onClose: () => void;
+}
+
+function PopupWithForm({
+  isOpen,
+  name,
+  onClose,
+  onSubmit,
+  title,
+  children,
+  buttonText,
+}: IPopupWithFormProps): ReactElement {
   return (
     <div
       className={
-        props.isOpen
-          ? `popup popup_type_${props.name} popup_opened`
-          : `popup popup_type_${props.name}`
+        isOpen
+          ? `popup popup_type_${name} popup_opened`
+          : `popup popup_type_${name}`
       }
     >
       <form
         className="popup__form"
-        name={props.name}
+        name={name}
         id="edit-profile-form"
         noValidate
-        onSubmit={props.onSubmit}
+        onSubmit={onSubmit}
       >
-        <h3 className="popup__title">{props.title}</h3>
-        {props.children}
+        <h3 className="popup__title">{title}</h3>
+        {children}
         <button className="popup__save-button" type="submit">
-          {props.buttonText}
+          {buttonText}
         </button>
         <button
           className="popup__close-button"
           type="button"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
       </form>
     </div>
