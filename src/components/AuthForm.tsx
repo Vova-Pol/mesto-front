@@ -4,8 +4,8 @@ import { IAuthFormValues } from '../types/auth';
 
 interface IAuthFormProps {
   formName: string;
-  handleRegister: (values: IAuthFormValues) => void;
-  handleLogin: (values: IAuthFormValues) => void;
+  handleRegister?: (values: IAuthFormValues) => void;
+  handleLogin?: (values: IAuthFormValues) => void;
   submitButtonName: string;
 }
 
@@ -28,8 +28,8 @@ function AuthForm({
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    if (formName === 'Регистрация') handleRegister(values);
-    if (formName === 'Вход') handleLogin(values);
+    if (formName === 'Регистрация' && handleRegister) handleRegister(values);
+    if (formName === 'Вход' && handleLogin) handleLogin(values);
   }
 
   return (

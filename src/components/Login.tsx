@@ -1,10 +1,15 @@
-import React from "react";
-import AuthForm from "./AuthForm";
+import React, { ReactElement } from 'react';
+import AuthForm from './AuthForm';
+import { IAuthFormValues } from '../types/auth';
 
-function Login(props) {
+interface ILoginProps {
+  handleLogin: (values: IAuthFormValues) => void;
+}
+
+function Login({ handleLogin }: ILoginProps): ReactElement {
   return (
     <AuthForm
-      handleLogin={props.handleLogin}
+      handleLogin={handleLogin}
       formName="Вход"
       submitButtonName="Войти"
     />
