@@ -13,7 +13,6 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
-// import * as auth from '../utils/auth';
 import { ICard, IUpdateCardsValues } from '../types/cards';
 import { IUpdateAvatarValues, IUpdateUserProfileValues } from '../types/user';
 import { IAuthFormValues } from '../types/auth';
@@ -54,16 +53,16 @@ function App(): ReactElement {
   const [loggedIn, setLoggedIn] = React.useState(true);
   const history = useHistory();
 
-  // React.useEffect(() => {
-  //   api
-  //     .requestUserInfo()
-  //     .then((res) => {
-  //       setCurrentUser(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, []);
+  React.useEffect(() => {
+    api
+      .requestUserInfo()
+      .then((res) => {
+        setCurrentUser(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   function handleAddCardClick() {
     setAddCardPopupIsOpen(true);
@@ -227,25 +226,6 @@ function App(): ReactElement {
       });
     }
   }
-
-  // React.useEffect(() => {
-  //   if (localStorage.getItem('jwt')) {
-  //     const jwt = localStorage.getItem('jwt');
-  //     auth
-  //       .checkToken(jwt)
-  //       .then((data) => {
-  //         setUserAuthData({
-  //           email: data.data.email,
-  //         });
-  //         setLoggedIn(true);
-  //         history.push('/');
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //         history.push('/sign-in');
-  //       });
-  //   }
-  // }, [history]);
 
   function handleHeaderLink() {
     if (loggedIn) {
