@@ -57,8 +57,8 @@ function App(): ReactElement {
   React.useEffect(() => {
     api
       .requestUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData);
+      .then((res) => {
+        setCurrentUser(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -91,8 +91,8 @@ function App(): ReactElement {
   function handleUpdateUser(newData: IUpdateUserProfileValues) {
     api
       .updateUserProfile(newData)
-      .then((userData) => {
-        setCurrentUser(userData);
+      .then((res) => {
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -103,8 +103,8 @@ function App(): ReactElement {
   function handleUpdateAvatar(newData: IUpdateAvatarValues) {
     api
       .updateUserAvatar(newData)
-      .then((userData) => {
-        setCurrentUser(userData);
+      .then((res) => {
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -115,8 +115,8 @@ function App(): ReactElement {
   function handleUpdateCards(newData: IUpdateCardsValues) {
     api
       .updateCards(newData)
-      .then((cardData) => {
-        setCards([cardData, ...cards]);
+      .then((res) => {
+        setCards([res.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -133,7 +133,8 @@ function App(): ReactElement {
 
     api
       .changeLikeCardStatus(card, isLiked, currentUser)
-      .then((newCard) => {
+      .then((res) => {
+        const newCard = res.data;
         setCards(
           cards.map((card) => {
             return card._id === newCard._id ? newCard : card;
@@ -159,8 +160,8 @@ function App(): ReactElement {
   React.useEffect(() => {
     api
       .requestInitialCards()
-      .then((cardsArr) => {
-        setCards(cardsArr);
+      .then((res) => {
+        setCards(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -177,15 +178,13 @@ function App(): ReactElement {
     auth
       .authorize(authData)
       .then((data) => {
-        if (data) {
-          setUserAuthData({ email: authData.email });
-          setLoggedIn(true);
-          localStorage.setItem('jwt', data.token);
-          history.push('/');
-        }
+        setUserAuthData({ email: authData.email });
+        setLoggedIn(true);
+        localStorage.setItem('jwt', data.token);
+        history.push('/');
       })
       .catch((err) => {
-        console.error('Сервер ответил ошибкой: ' + err);
+        console.error(err);
       });
   }
 
