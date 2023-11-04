@@ -4,16 +4,16 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
-import api from '../utils/api';
+import { api } from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddCardPopup from './AddCardPopup';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
-import * as auth from '../utils/auth';
+// import * as auth from '../utils/auth';
 import { ICard, IUpdateCardsValues } from '../types/cards';
 import { IUpdateAvatarValues, IUpdateUserProfileValues } from '../types/user';
 import { IAuthFormValues } from '../types/auth';
@@ -51,19 +51,19 @@ function App(): ReactElement {
     cohort: '',
   });
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const history = useHistory();
 
-  React.useEffect(() => {
-    api
-      .requestUserInfo()
-      .then((res) => {
-        setCurrentUser(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   api
+  //     .requestUserInfo()
+  //     .then((res) => {
+  //       setCurrentUser(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, []);
 
   function handleAddCardClick() {
     setAddCardPopupIsOpen(true);
@@ -175,12 +175,12 @@ function App(): ReactElement {
   });
 
   function handleLogin(authData: IAuthFormValues) {
-    auth
-      .authorize(authData)
-      .then((data) => {
+    api
+      .login(authData)
+      .then((res) => {
         setUserAuthData({ email: authData.email });
         setLoggedIn(true);
-        localStorage.setItem('jwt', data.token);
+        localStorage.setItem('jwt', res.data.token);
         history.push('/');
       })
       .catch((err) => {
@@ -189,15 +189,13 @@ function App(): ReactElement {
   }
 
   function handleRegister(registerData: IAuthFormValues) {
-    auth
+    api
       .register(registerData)
       .then((data) => {
-        if (data) {
-          setTooltip({
-            isOpen: true,
-            isSuccess: true,
-          });
-        }
+        setTooltip({
+          isOpen: true,
+          isSuccess: true,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -230,24 +228,24 @@ function App(): ReactElement {
     }
   }
 
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth
-        .checkToken(jwt)
-        .then((data) => {
-          setUserAuthData({
-            email: data.data.email,
-          });
-          setLoggedIn(true);
-          history.push('/');
-        })
-        .catch((err) => {
-          console.error(err);
-          history.push('/sign-in');
-        });
-    }
-  }, [history]);
+  // React.useEffect(() => {
+  //   if (localStorage.getItem('jwt')) {
+  //     const jwt = localStorage.getItem('jwt');
+  //     auth
+  //       .checkToken(jwt)
+  //       .then((data) => {
+  //         setUserAuthData({
+  //           email: data.data.email,
+  //         });
+  //         setLoggedIn(true);
+  //         history.push('/');
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //         history.push('/sign-in');
+  //       });
+  //   }
+  // }, [history]);
 
   function handleHeaderLink() {
     if (loggedIn) {
@@ -261,8 +259,7 @@ function App(): ReactElement {
     <div className="page">
       <div className="page__container">
         <Header
-          // loggedIn={loggedIn}
-          loggedIn={true}
+          loggedIn={loggedIn}
           email={userAuthData.email}
           onClickLink={handleHeaderLink}
         />
@@ -282,57 +279,57 @@ function App(): ReactElement {
           </Route>
 
           <Route exact path="/">
-            {/* {!loggedIn ? (
+            {!loggedIn ? (
               <Redirect to="/sign-up" />
-            ) : ( */}
-            <CurrentUserContext.Provider value={currentUser}>
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onAddCard={handleAddCardClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-              />
-              <Footer />
+            ) : (
+              <CurrentUserContext.Provider value={currentUser}>
+                <Main
+                  onEditProfile={handleEditProfileClick}
+                  onAddCard={handleAddCardClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  cards={cards}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+                <Footer />
 
-              <EditProfilePopup
-                isOpen={isEditProfilePopupOpen}
-                onClose={closeAllPopups}
-                onUpdateUser={handleUpdateUser}
-              />
+                <EditProfilePopup
+                  isOpen={isEditProfilePopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateUser={handleUpdateUser}
+                />
 
-              <AddCardPopup
-                isOpen={isAddCardPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateCards={handleUpdateCards}
-              />
+                <AddCardPopup
+                  isOpen={isAddCardPopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateCards={handleUpdateCards}
+                />
 
-              <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-              <div className="popup" id="popup-delete-card">
-                <form className="popup__form">
-                  <h3 className="popup__title popup__title_type_delete">
-                    Вы уверены?
-                  </h3>
-                  <button className="popup__save-button" type="submit">
-                    Да
-                  </button>
-                  <button
-                    className="popup__close-button"
-                    type="button"
-                  ></button>
-                </form>
-              </div>
+                <div className="popup" id="popup-delete-card">
+                  <form className="popup__form">
+                    <h3 className="popup__title popup__title_type_delete">
+                      Вы уверены?
+                    </h3>
+                    <button className="popup__save-button" type="submit">
+                      Да
+                    </button>
+                    <button
+                      className="popup__close-button"
+                      type="button"
+                    ></button>
+                  </form>
+                </div>
 
-              <EditAvatarPopup
-                isOpen={isEditAvatarPopupOpen}
-                onClose={closeAllPopups}
-                onUpdateAvatar={handleUpdateAvatar}
-              />
-            </CurrentUserContext.Provider>
-            {/* )} */}
+                <EditAvatarPopup
+                  isOpen={isEditAvatarPopupOpen}
+                  onClose={closeAllPopups}
+                  onUpdateAvatar={handleUpdateAvatar}
+                />
+              </CurrentUserContext.Provider>
+            )}
           </Route>
         </Switch>
       </div>

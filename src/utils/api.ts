@@ -4,62 +4,63 @@ import {
   IUpdateUserProfileValues,
   IUser,
 } from '../types/user';
-import { apiConfig } from './utils';
 import axios from 'axios';
 import { AxiosInstance } from 'axios';
-import { IApiConfig } from '../types/api';
+import { IAuthFormValues } from '../types/auth';
+import { BASE_URL } from './constants';
 
 export class Api {
-  // constructor(apiConfig) {
-  //   this._baseUrl = apiConfig.baseUrl;
-  //   this._token = apiConfig.token;
-  // }
-
   apiClient: AxiosInstance;
 
-  constructor(config: IApiConfig) {
+  constructor(baseUrl: string) {
     this.apiClient = axios.create({
-      baseURL: config.baseUrl,
-      headers: {
-        Authorization: `Bearer ${config.token}`,
-      },
+      baseURL: baseUrl,
     });
   }
-  // this.apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-  requestInitialCards() {
-    return this.apiClient.get('cards');
-  }
+  // --------------------- User Methods
 
   requestUserInfo() {
-    return this.apiClient.get('users/me');
-  }
-
-  changeLikeCardStatus(card: ICard, isLiked: boolean, userData: IUser) {
-    // const method = isLiked ? 'DELETE' : 'PUT';
-    // return this.sendRequest(`cards/${card._id}/likes`, method, userData);
-
-    return isLiked
-      ? this.apiClient.delete(`cards/${card._id}/likes`)
-      : this.apiClient.put(`cards/${card._id}/likes`, userData);
-  }
-
-  changeDeleteCardStatus(card: ICard) {
-    return this.apiClient.delete(`cards/${card._id}`);
+    return this.apiClient.get('/users/me');
   }
 
   updateUserProfile(newData: IUpdateUserProfileValues) {
-    return this.apiClient.patch('users/me', newData);
+    return this.apiClient.patch('/users/me', newData);
   }
 
   updateUserAvatar(newData: IUpdateAvatarValues) {
-    return this.apiClient.patch('users/me/avatar', newData);
+    return this.apiClient.patch('/users/me/avatar', newData);
+  }
+
+  // --------------------- Auth Methods
+
+  register(registerData: IAuthFormValues) {
+    return this.apiClient.post('/sign-up', registerData);
+  }
+
+  login(loginData: IAuthFormValues) {
+    return this.apiClient.post('/sign-in');
+  }
+
+  // --------------------- Cards Methods
+
+  requestInitialCards() {
+    return this.apiClient.get('/cards');
   }
 
   updateCards(newData: IUpdateCardsValues) {
-    return this.apiClient.post('cards', newData);
+    return this.apiClient.post('/cards', newData);
+  }
+
+  changeLikeCardStatus(card: ICard, isLiked: boolean, userData: IUser) {
+    return isLiked
+      ? this.apiClient.delete(`/cards/${card._id}/likes`)
+      : this.apiClient.put(`/cards/${card._id}/likes`, userData);
+  }
+
+  changeDeleteCardStatus(card: ICard) {
+    return this.apiClient.delete(`/cards/${card._id}`);
   }
 }
 
-const api = new Api(apiConfig);
-export default api;
+export const api = new Api(BASE_URL);
